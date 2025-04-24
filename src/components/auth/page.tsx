@@ -15,13 +15,13 @@ import { RootState } from "@/store/store";
 const Auth = () => {
   const auth = usePathname();
   const router = useRouter();
-  const {userInfo: {access_token}, userInfo} = useSelector((store: RootState) => store.user);
-  console.log(access_token,  userInfo);
+  const {userInfo: {access_token}} = useSelector((store: RootState) => store.user);
+  console.log(access_token);
   if(access_token) router.push('/');
   const dispatch = useDispatch();
   const handleFormData = (data: HTMLFormElement) => {
     const form = new FormData(data);
-    const formData: Record<string, any> = {};
+    const formData: Record<string, unknown> = {};
     for (const [key, value] of form.entries()) {
       formData[key] = value;
     }

@@ -8,7 +8,7 @@ export type ResponseData = {
     error?: string,
     status_code: number,
     message?: string,
-    data?: object
+    data?: object,
 }
 
 export type sessionData = {

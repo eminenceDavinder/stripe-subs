@@ -1,0 +1,25 @@
+.m-container{
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.subs-container{
+    display: flex;
+    gap: 18px;
+}
+
+.sub-container{
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+    padding: 30px;
+}
+
+.sub-btn{
+    border: none;
+    background: red;
+    color: white;
+    border-radius: 6px;
+    padding: 3px 6px;
+    font-size: 18px;
+}

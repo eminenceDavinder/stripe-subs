@@ -88,9 +88,8 @@ const Navbar = () => {
                     SignUp
                   </Link>
                 </li>
-              </> : <li>
-                <button onClick={handleSignOut}>Sign Out</button>
-              </li>
+              </> : 
+                <button style={{ border: "2px solid red", background: "white", fontSize: "17px", fontWeight: "350", marginTop: "5px", borderRadius: "6px"}} onClick={handleSignOut}>Sign Out</button>
             }
           </ul>
         </div>

@@ -1,8 +1,11 @@
-'use client';
+"use client";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Navbar from "@/components/navbar/page";
-import "./globals.css";
 import { Provider } from "react-redux";
-import store from "@/store/store";
+import { store, persistor } from "@/store/store";
+import { PersistGate } from "redux-persist/integration/react";
+import "./globals.css";
 
 export default function RootLayout({
   children,
@@ -13,8 +16,10 @@ export default function RootLayout({
     <html lang="en">
       <Provider store={store}>
         <body>
-          <Navbar />
-          {children}
+          <PersistGate loading={null} persistor={persistor}>
+            <Navbar />
+            {children}
+          </PersistGate>
         </body>
       </Provider>
     </html>

@@ -1,27 +1,24 @@
-import { AuthenticatedRequest, DecodedUser } from "@/utils/interfaces";
+import { DecodedUser } from "@/utils/interfaces";
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
-import { NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
 export const authenticateToken = (
-    req: AuthenticatedRequest,
-    res: NextApiResponse,
-    next: () => void
+    req: NextRequest,
   ) => {
-    const authHeader = req.headers.authorization;
+    const authHeader = req.headers.get('authorization');
     const token = authHeader && authHeader.split(" ")[1];
   
     if (!token) 
-      return res.status(401).json({ success: false, message: "Access token required" });
+      return NextResponse.json({ success: false, message: "Access token required" });
     try {
       const decodeUser = jwt.verify(
         token,
         process.env.SECRET_KEY as string,
       ) as DecodedUser;
-      req.user = decodeUser;
-      next();
+      return decodeUser.userId;
     } catch (err) {
-      if (err) return res.status(403).json({ success: false, message: "Invalid token" });
+      if (err) return NextResponse.json({ success: false, message: "Invalid token" });
     }
   };
   

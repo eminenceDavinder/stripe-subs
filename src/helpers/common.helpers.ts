@@ -27,7 +27,7 @@ export const generateResponseObject = (
   
   export const asyncHandler = async <T>(
     fn: () => Promise<T>,
-  ): Promise<{ error?: string; message?: string } | any> => {
+  ): Promise<{ error?: string; message?: string } | unknown> => {
     try {
       return await fn();
     } catch (error) {
