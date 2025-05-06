@@ -8,7 +8,7 @@ export default function AccountPage() {
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold">Account</h1>
-      {status === 'success' && <p className="text-green-600">Subscription successful! 🎉</p>}
+      {status === 'success' && <p className="text-green-600">Subscription updated successfully!</p>}
       {status === 'cancel' && <p className="text-red-600">Checkout was canceled.</p>}
     </div>
   );

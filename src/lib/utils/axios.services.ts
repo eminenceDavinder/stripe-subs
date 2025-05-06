@@ -46,17 +46,17 @@ export const handleSubscribe = async (
 };
 
 export const handleGetPromoCodes = async (): Promise<IPromoCode[] | null> => {
-  return await tryCatch(async (): Promise<IPromoCode[]> => {
-    const { data } = await axios.get("/get-promoCodes");
-    return data;
+  const result = await tryCatch(async (): Promise<AxiosResponse> => {
+    return await axios.get("/get-promoCodes");
   });
+  return result?.data?.result?.promoCodes;
 };
 
 export const handleGetCoupons = async () => {
-  return tryCatch(async () => {
-    const { data } = await axios.get("/get-coupons");
-    return data;
+   const result = await tryCatch(async (): Promise<AxiosResponse> => {
+    return await axios.get("/get-coupons");
   });
+  return result?.data?.result?.coupons;
 };
 
 export const handleGetSubscriptionPlans = async () => {

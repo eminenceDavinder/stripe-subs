@@ -159,7 +159,7 @@ export async function handleRefundPaymentPreviousSubscription(
   const invoice = invoices.data[0];
   // console.log(invoices.data);
 
-  if (invoice?.status === "paid" && invoice.payment.payment_intent) {
+  if (invoice?.status === "paid" && invoice.payment.payment_intent && existing?.stripeInvoiceId) {
     const unusedAmount = await paidAmountProportion(
       invoice.amount_paid as number,
       existing.stripeSubscriptionId

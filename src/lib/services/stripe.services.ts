@@ -179,3 +179,32 @@ export const upgradeStripeSubscription = async (
   return generateResponseObject(result as ResponseData);
 };
 
+export const getCoupons = async () => {
+  const result = await asyncHandlerForOperations(async (): Promise<ResponseData | unknown> => {
+  const couponsList = await stripe.coupons.list({});
+      const coupons = couponsList.data.map((coupon: Stripe.Coupon) => {
+          return {
+            id: coupon.id,
+            metadata: coupon.metadata,
+            name: coupon.name,
+            duration: coupon.duration,
+            valid: true,
+            percent_off: coupon.percent_off,
+            amount_off: coupon.amount_off,
+            currency: coupon.currency,
+          };
+      });
+      return {data: {coupons}, message: "Coupons fetched successfully"};
+    }, "Something went wrong.", StatusCodes.INTERNAL_SERVER_ERROR)
+    return generateResponseObject(result as ResponseData);
+}
+
+export const getPromoCodes = async () => {
+  const result = await asyncHandlerForOperations(async (): Promise<ResponseData | unknown> => {
+  const promoCodes = await stripe.promotionCodes.list({
+    limit: 100,
+  });
+  return {data: {promoCodes}, message: "PromoCodes fetched successfully"};
+}, "Something went wrong.", StatusCodes.INTERNAL_SERVER_ERROR);
+return generateResponseObject(result as ResponseData);
+}
