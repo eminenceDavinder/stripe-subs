@@ -1,5 +1,5 @@
 "use client";
-import styles from "@/app/subscriptions/page.module.css";
+import styles from "@app/subscriptions/page.module.css";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@store/store";
@@ -22,7 +22,7 @@ export default function Subscriptions() {
 
   const subscribe = async (priceId: string, promocodeId: string, coupon: string) => {
     await handleSubscribe(priceId, promocodeId, coupon, email);
-    router.push('/manage-subscription');
+    // router.push('/manage-subscription');
   }
 
   const getPromoCodes = async () => {
@@ -46,9 +46,7 @@ export default function Subscriptions() {
   }, [router]);
 
   useEffect(() => {
-    if (!access_token) {
-      router.push("/");
-    }
+    if (!access_token) router.push("/");
     fetchPlansAndActive();
     getPromoCodes();
   }, [access_token, router, fetchPlansAndActive]);

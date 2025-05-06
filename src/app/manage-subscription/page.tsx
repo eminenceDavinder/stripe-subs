@@ -21,7 +21,7 @@ export default function Account() {
   const [loading, setLoading] = useState(false);
   const route = useRouter();
   const {
-    userInfo: { email },
+    userInfo: { email, access_token },
   } = useSelector((store: RootState) => store.user);
 
   const fetchPlansAndActive = useCallback(async () => {
@@ -30,7 +30,8 @@ export default function Account() {
     const subData = await handleGetSubscribedPlan();
     if (subData) {
       const activePlan = getActivatedPlan(plansData, subData);
-      if (!activePlan) return route.push("/manage-subscription");
+      console.log(activePlan);
+      if (!activePlan) route.push("/subscriptions");
       setPlan(activePlan);
     }
   }, [route]);
@@ -48,8 +49,9 @@ export default function Account() {
   };
 
   useEffect(() => {
+    if(!access_token) route.push("/sign-up")
     fetchPlansAndActive();
-  }, [fetchPlansAndActive]);
+  }, [fetchPlansAndActive, route, access_token]);
 
   return (
     <div className="container">

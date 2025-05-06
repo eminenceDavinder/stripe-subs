@@ -21,11 +21,11 @@ export const findSubscribedPlanByUserId = async (token: string) => {
       if (subscription) return { data: { plan: subscription.stripePriceId } };
       return {
         error: "No Subscription found",
-        status_code: StatusCodes.BAD_REQUEST,
+        status_code: StatusCodes.OK,
       };
     },
-    "No subscribed plan found",
-    StatusCodes.FORBIDDEN
+    "Internal server error",
+    StatusCodes.INTERNAL_SERVER_ERROR
   );
   return generateResponseObject(result as ResponseData);
 };

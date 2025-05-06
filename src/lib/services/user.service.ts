@@ -39,13 +39,13 @@ export const signIn = async (email: string, password: string) => {
       if (!user)
         return {
           error: "Invalid Email",
-          status_code: StatusCodes.BAD_REQUEST,
+          status_code: StatusCodes.OK,
         };
       const isPassword = await comparePassword(password, user.password);
       if (!isPassword)
         return {
           error: "Wrong Password",
-          status_code: StatusCodes.BAD_REQUEST,
+          status_code: StatusCodes.OK,
         };
       const access_token = generateToken(user?._id as string);
       return {
@@ -71,7 +71,7 @@ export const signUp = async (
       if (isExists)
         return {
           error: "Email is already present",
-          status_code: StatusCodes.BAD_REQUEST,
+          status_code: StatusCodes.OK,
         };
       const hash_password = await hashPassword(password);
       const user = new User({

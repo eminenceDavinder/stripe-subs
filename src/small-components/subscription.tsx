@@ -1,7 +1,7 @@
 import { IPromoCode, Plan } from "@lib/interfaces";
 import { checkPromotionCode } from "@lib/utils/helpers";
 import { useState } from "react";
-import styles from "@/small-components/subscription.module.css";
+import styles from "@small-components/subscription.module.css";
 
 export const PriceContainer = ({
   price,

@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import "./page.css";
 import { usePathname } from "next/navigation";
 import { AuthRequestBody } from "@lib/validators";
@@ -17,7 +17,6 @@ const Auth = () => {
   const auth = usePathname();
   const router = useRouter();
   const {userInfo: {access_token}} = useSelector((store: RootState) => store.user);
-  if(access_token) router.push('/');
   const dispatch = useDispatch();
   
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -34,6 +33,10 @@ const Auth = () => {
     }
     return toast.error(data?.message);
   };
+
+  useEffect(() => {
+  if(access_token) router.push('/');
+  }, [access_token, router])
 
   return (
     <>

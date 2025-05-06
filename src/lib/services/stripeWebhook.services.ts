@@ -62,7 +62,7 @@ export async function handleSubscriptionUpdated(
   if (!subscription.items.data.length) return;
   const { item, stripeCustomerId, userId }: SubscriptionCredentials =
     await subscriptionCredentials(subscription);
-
+    console.log(subscription.latest_invoice);
   await handleRefundPaymentPreviousSubscription(subscription, userId as string);
 
   const invoices = await stripe.invoices.list({
@@ -157,13 +157,15 @@ export async function handleRefundPaymentPreviousSubscription(
     limit: 1,
   });
   const invoice = invoices.data[0];
+  // console.log(invoices.data);
 
   if (invoice?.status === "paid" && invoice.payment.payment_intent) {
     const unusedAmount = await paidAmountProportion(
       invoice.amount_paid as number,
       existing.stripeSubscriptionId
     );
-    if (unusedAmount > 0 || invoice.amount_paid === 0) {
+    // console.log(invoice.amount_paid, invoice);
+    if (unusedAmount >= 0) {
       await cancelSubscription(
         existing.stripeSubscriptionId,
         subscription.cancel_at as number
@@ -172,7 +174,7 @@ export async function handleRefundPaymentPreviousSubscription(
       try {
         await stripe.refunds.create({
           payment_intent: invoice.payment.payment_intent.toString(),
-          amount: unusedAmount,
+          // amount: unusedAmount,
         });
       } catch (err) {
         console.log(err);

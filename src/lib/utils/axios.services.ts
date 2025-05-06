@@ -30,7 +30,6 @@ export const handleSubscribe = async (
   email: string
 ) => {
   const stripe = await stripePromise;
-
   return tryCatch(async () => {
     const {
       data: {
@@ -72,14 +71,10 @@ export const handleGetSubscriptionPlans = async () => {
 };
 
 export const handleGetSubscribedPlan = async () => {
-  return tryCatch(async () => {
-    const {
-      data: {
-        result: { plan: subData },
-      },
-    } = await axios.get("/subscribed-plan");
-    return subData;
+  const result = await tryCatch(async ():Promise<AxiosResponse> => {
+    return await axios.get("/subscribed-plan");
   });
+  return result?.data?.result?.plan;
 };
 
 export const handleUpdateSubscription = async (

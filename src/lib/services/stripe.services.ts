@@ -72,14 +72,14 @@ export const stripeCheckOutSession = async (
           logger.warn("No client_reference_id found in session");
           return {
             error: "Missing client_reference_id in session",
-            status_code: StatusCodes.BAD_REQUEST,
+            status_code: StatusCodes.OK,
           };
         }
       } else {
         logger.error("Payment status is not paid");
         return {
           error: "Payment not completed",
-          status_code: StatusCodes.BAD_REQUEST,
+          status_code: StatusCodes.OK,
         };
       }
     },
@@ -98,6 +98,7 @@ export const stripeCreateCheckOutSession = async (
 ) => {
   const result = await asyncHandlerForOperations(
     async (): Promise<ResponseData> => {
+      console.log('hi');
       const session = await stripe.checkout.sessions.create({
         mode: "subscription",
         payment_method_types: ["card"],
