@@ -1,18 +1,18 @@
-import { authenticateToken } from "@/lib/helpers/authentication.helpers";
-import { dbConnection } from "@/lib/dbConnection";
+import { authenticateToken } from "@lib/helpers/authentication.helpers";
+import { dbConnection } from "@lib/dbConnection";
 import { NextResponse } from "next/server";
 import {
   stripe,
   Stripe,
-} from "@/lib/helpers/stripe.herpers";
-import { getUserById } from "@/lib/services/user.service";
+} from "@lib/helpers/stripe.herpers";
+import { getUserById } from "@lib/services/user.service";
 import {
   asyncHandlerForOperations,
   generateResponseObject,
-} from "@/lib/helpers/common.helpers";
-import { ResponseData } from "@/lib/types";
+} from "@lib/helpers/common.helpers";
+import { ResponseData } from "@lib/types";
 import { StatusCodes } from "http-status-codes";
-import logger from "../logger";
+import logger from "@lib/logger";
 dbConnection();
 
 const getSubscriptionsByStripeCustomerId = async (

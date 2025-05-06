@@ -1,4 +1,4 @@
-import { Coupon, IPromoCode, Plan } from "../interfaces";
+import { Coupon, IPromoCode, Plan } from "@lib/interfaces";
 
 export const checkPromotionCode = (
   val: string,

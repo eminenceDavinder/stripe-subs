@@ -1,13 +1,13 @@
-import { authenticateToken } from "@/lib/helpers/authentication.helpers";
-import { dbConnection } from "@/lib/dbConnection";
-import Subscription from "@/lib/models/subscription.model";
+import { authenticateToken } from "@lib/helpers/authentication.helpers";
+import { dbConnection } from "@lib/dbConnection";
+import Subscription from "@lib/models/subscription.model";
 import {
   asyncHandlerForOperations,
   generateResponseObject,
-} from "../helpers/common.helpers";
-import { ResponseData } from "../types";
+} from "@lib/helpers/common.helpers";
+import { ResponseData } from "@lib/types";
 import { StatusCodes } from "http-status-codes";
-import { Stripe } from "../helpers/stripe.herpers";
+import { Stripe } from "@lib/helpers/stripe.herpers";
 dbConnection();
 
 export const findSubscribedPlanByUserId = async (token: string) => {

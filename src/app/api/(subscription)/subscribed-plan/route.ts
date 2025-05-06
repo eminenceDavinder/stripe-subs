@@ -1,4 +1,4 @@
-import { findSubscribedPlanByUserId } from "@/lib/services/subscription.service";
+import { findSubscribedPlanByUserId } from "@lib/services/subscription.service";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {

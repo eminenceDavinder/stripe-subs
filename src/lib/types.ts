@@ -1,4 +1,4 @@
-import { Stripe } from "./helpers/stripe.herpers";
+import { Stripe } from "@lib/helpers/stripe.herpers";
 
 export type AuthFormData = {
   name?: string;

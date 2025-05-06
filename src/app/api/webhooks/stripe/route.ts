@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import logger from "@/lib/logger";
-import { Stripe, stripe, endpointSecret } from "@/lib/helpers/stripe.herpers";
-import { handleCheckOutSubscriptionUpdated, handleInvoiceFailed, handleInvoicePaid, handleSubscriptionDeleted, handleSubscriptionUpdated } from "@/lib/services/stripeWebhook.services";
-import { StripeEvent } from "@/lib/types";
+import logger from "@lib/logger";
+import { Stripe, stripe, endpointSecret } from "@lib/helpers/stripe.herpers";
+import { handleCheckOutSubscriptionUpdated, handleInvoiceFailed, handleInvoicePaid, handleSubscriptionDeleted, handleSubscriptionUpdated } from "@lib/services/stripeWebhook.services";
+import { StripeEvent } from "@lib/types";
 
 
 export async function POST(request: NextRequest) {

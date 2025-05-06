@@ -1,18 +1,18 @@
 "use client";
-import { RootState } from "@/store/store";
+import { RootState } from "@store/store";
 import { useCallback, useEffect, useState } from "react";
 import "./page.css";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { Plan } from "@/lib/interfaces";
-import { PriceContainer } from "@/small-components/subscription";
+import { Plan } from "@lib/interfaces";
+import { PriceContainer } from "@small-components/subscription";
 import {
   handleCancelSubscription,
   handleGetSubscribedPlan,
   handleGetSubscriptionPlans,
   handleUpdateSubscription,
-} from "@/lib/utils/axios.services";
-import { getActivatedPlan } from "@/lib/utils/helpers";
+} from "@lib/utils/axios.services";
+import { getActivatedPlan } from "@lib/utils/helpers";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Account() {

@@ -1,4 +1,4 @@
-import { signUp } from "@/lib/services/user.service";
+import { signUp } from "@lib/services/user.service";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest){

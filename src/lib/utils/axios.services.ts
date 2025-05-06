@@ -1,6 +1,6 @@
-import axios from "@/lib/helpers/axios.helpers";
+import axios from "@lib/helpers/axios.helpers";
 import { loadStripe } from "@stripe/stripe-js";
-import { IPromoCode } from "../interfaces";
+import { IPromoCode } from "@lib/interfaces";
 import { AxiosResponse } from "axios";
 
 export const tryCatch = async <T>(

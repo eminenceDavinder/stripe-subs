@@ -1,4 +1,4 @@
-import { sessionData } from "../types";
+import { sessionData } from "@lib/types";
 
 export const setLocalStorage = (key: string, value: sessionData) => {
     if (typeof window !== "undefined") {

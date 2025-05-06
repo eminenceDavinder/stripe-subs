@@ -1,4 +1,4 @@
-import { cancelStripeSubsctiption } from "@/lib/services/stripe.services";
+import { cancelStripeSubsctiption } from "@lib/services/stripe.services";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {

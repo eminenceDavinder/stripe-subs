@@ -1,4 +1,4 @@
-import { stripeCreateCheckOutSession } from '@/lib/services/stripe.services';
+import { stripeCreateCheckOutSession } from '@lib/services/stripe.services';
 import { NextRequest} from 'next/server';
 
 export async function POST(request: NextRequest) {

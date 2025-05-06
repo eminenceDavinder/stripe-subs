@@ -2,12 +2,12 @@
 import styles from "@/app/subscriptions/page.module.css";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { RootState } from "@store/store";
 import { useRouter } from "next/navigation";
-import { IPromoCode, Plan } from "@/lib/interfaces";
-import { PriceContainer, PromoCodeContainer } from "@/small-components/subscription";
-import { handleGetCoupons, handleGetPromoCodes, handleGetSubscribedPlan, handleGetSubscriptionPlans, handleSubscribe } from "@/lib/utils/axios.services";
-import { getActivatedPlan, mapCouponsToProducts } from "@/lib/utils/helpers";
+import { IPromoCode, Plan } from "@lib/interfaces";
+import { PriceContainer, PromoCodeContainer } from "@small-components/subscription";
+import { handleGetCoupons, handleGetPromoCodes, handleGetSubscribedPlan, handleGetSubscriptionPlans, handleSubscribe } from "@lib/utils/axios.services";
+import { getActivatedPlan, mapCouponsToProducts } from "@lib/utils/helpers";
 
 export default function Subscriptions() {
   const router = useRouter();

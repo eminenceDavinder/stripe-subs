@@ -1,5 +1,5 @@
 
-import { upgradeStripeSubscription } from "@/lib/services/stripe.services";
+import { upgradeStripeSubscription } from "@lib/services/stripe.services";
 import { NextRequest } from "next/server";
 
 

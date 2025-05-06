@@ -1,18 +1,18 @@
-import User from "@/lib/models/user.model";
+import User from "@lib/models/user.model";
 import mongoose from "mongoose";
 import {
   authenticateToken,
   comparePassword,
   generateToken,
   hashPassword,
-} from "../helpers/authentication.helpers";
+} from "@lib//helpers/authentication.helpers";
 import {
   asyncHandlerForOperations,
   generateResponseObject,
-} from "../helpers/common.helpers";
+} from "@lib/helpers/common.helpers";
 import { StatusCodes } from "http-status-codes";
-import { ResponseData } from "../types";
-import { dbConnection } from "../dbConnection";
+import { ResponseData } from "@lib/types";
+import { dbConnection } from "@lib/dbConnection";
 await dbConnection();
 
 export const findUserIdByEmail = async (

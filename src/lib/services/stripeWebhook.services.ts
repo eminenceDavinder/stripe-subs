@@ -1,8 +1,8 @@
-import { Stripe, stripe } from "../helpers/stripe.herpers";
+import { Stripe, stripe } from "@lib/helpers/stripe.herpers";
 import {
   InvoiceCredentials,
   SubscriptionCredentials,
-} from "../types";
+} from "@lib/types";
 import {
   cancelUserSubscription,
   findUserIdByEmail,
@@ -172,7 +172,7 @@ export async function handleRefundPaymentPreviousSubscription(
       try {
         await stripe.refunds.create({
           payment_intent: invoice.payment.payment_intent.toString(),
-          // amount: unusedAmount,
+          amount: unusedAmount,
         });
       } catch (err) {
         console.log(err);

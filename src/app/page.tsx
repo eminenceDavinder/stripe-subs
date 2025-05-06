@@ -2,10 +2,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "@/store/slices/userSlice";
-import { RootState } from "@/store/store";
-import { getLocalStorage } from "@/lib/utils/localStorage";
-import { handleCheckIsSubscribed } from "@/lib/utils/axios.services";
+import { setUser } from "@store/slices/userSlice";
+import { RootState } from "@store/store";
+import { getLocalStorage } from "@lib/utils/localStorage";
+import { handleCheckIsSubscribed } from "@lib/utils/axios.services";
 
 const Subscription = ({ active }: { active: boolean }) => {
   const router = useRouter();

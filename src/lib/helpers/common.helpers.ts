@@ -1,7 +1,7 @@
-import { ResponseData, StripeEvent } from "@/lib/types";
+import { ResponseData, StripeEvent } from "@lib/types";
 import { StatusCodes } from "http-status-codes";
 import { NextResponse } from "next/server";
-import logger from "../logger";
+import logger from "@lib/logger";
 
 const generateResponse = (
   success: boolean,

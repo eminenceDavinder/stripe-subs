@@ -2,16 +2,16 @@
 import { FormEvent } from "react";
 import "./page.css";
 import { usePathname } from "next/navigation";
-import { AuthRequestBody } from "@/lib/validators";
+import { AuthRequestBody } from "@lib/validators";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
-import { setLocalStorage } from "@/lib/utils/localStorage";
+import { setLocalStorage } from "@lib/utils/localStorage";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "@/store/slices/userSlice";
+import { setUser } from "@store/slices/userSlice";
 import { useRouter } from "next/navigation";
-import { RootState } from "@/store/store";
-import { handleFormData } from "@/lib/utils/helpers";
-import { handleUserAuth } from "@/lib/utils/axios.services";
+import { RootState } from "@store/store";
+import { handleFormData } from "@lib/utils/helpers";
+import { handleUserAuth } from "@lib/utils/axios.services";
 
 const Auth = () => {
   const auth = usePathname();

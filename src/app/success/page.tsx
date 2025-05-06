@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { handleFetchSessionStatus } from '@/lib/utils/axios.services';
+import { handleFetchSessionStatus } from '@lib/utils/axios.services';
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function SuccessPage() {

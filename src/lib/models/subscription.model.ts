@@ -1,5 +1,5 @@
 import mongoose, { Schema, model, models } from 'mongoose';
-import { ISubscription } from '@/lib/interfaces';
+import { ISubscription } from '@lib/interfaces';
 
 
 const SubscriptionSchema = new mongoose.Schema(

@@ -1,4 +1,4 @@
-import { isSubscribed } from "@/lib/services/user.service";
+import { isSubscribed } from "@lib/services/user.service";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {

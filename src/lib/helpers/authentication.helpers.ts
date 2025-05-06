@@ -1,4 +1,4 @@
-import { DecodedUser } from "@/lib/interfaces";
+import { DecodedUser } from "@lib/interfaces";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { asyncHandlerForOperations, generateResponseObject } from "./common.helpers";
