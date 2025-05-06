@@ -1,6 +1,5 @@
-import logger from "@/logger";
+import logger from "@/lib/logger";
 import mongoose from "mongoose";
-import 'dotenv/config';
 
 export const dbConnection = async () => {
     try{

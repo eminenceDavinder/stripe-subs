@@ -1,45 +1,30 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import axios, { isAxiosError } from 'axios';
-import { RootState } from '@/store/store';
-import { useSelector } from 'react-redux';
+import { handleFetchSessionStatus } from '@/lib/utils/axios.services';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function SuccessPage() {
-    const {userInfo: {access_token}} = useSelector((store: RootState) => store.user);
   const [status, setStatus] = useState('loading');
-  const [customerEmail, setCustomerEmail] = useState('');
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
+
+  const fetchSessionStatus = useCallback(async () => {
+    const data = await handleFetchSessionStatus(sessionId as string);
+    if (!data.success) {
+        setStatus('failed');
+        return toast.error(data.message);
+      }
+      setStatus('success');  
+      return toast.success(data.message);  
+  },[sessionId]);
 
   useEffect(() => {
     if (sessionId) {
       fetchSessionStatus();
     }
-  }, [sessionId]);
-
-  async function fetchSessionStatus() {
-    try{
-
-        const {data} = await axios.post('/api/check-session',{ sessionId: sessionId },{headers : { Authorization: `Bearer ${access_token}`}})
-        const { session, error } = data;
-
-    if (error) {
-        setStatus('failed');
-        console.error(error);
-        return;
-      }
-  
-      setStatus(session.status);
-      setCustomerEmail(session.customer_email);
-    }catch(err){
-        if(isAxiosError(err)){
-            const data : {message: string} = err.response?.data
-            console.log(data.message);
-        }
-    }
-  }
+  }, [sessionId, fetchSessionStatus]);
 
   if (status === 'loading') {
     return <div>Loading...</div>;
@@ -51,8 +36,9 @@ export default function SuccessPage() {
 
   return (
     <div>
+      <Toaster/>
       <h1>Subscription Successful!</h1>
-      <p>Thank you for your subscription. A confirmation email has been sent to {customerEmail}.</p>
+      <p>Thank you for your subscription. A confirmation email has been sent to .</p>
     </div>
   );
 }

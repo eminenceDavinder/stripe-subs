@@ -1,22 +1,13 @@
 "use client";
 import styles from "@/app/subscriptions/page.module.css";
-import { useEffect, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useRouter } from "next/navigation";
-import axios, { isAxiosError } from "axios";
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISH_KEY!);
-
-type Plan = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  price_id: string;
-  interval: string;
-};
+import { IPromoCode, Plan } from "@/lib/interfaces";
+import { PriceContainer, PromoCodeContainer } from "@/small-components/subscription";
+import { handleGetCoupons, handleGetPromoCodes, handleGetSubscribedPlan, handleGetSubscriptionPlans, handleSubscribe } from "@/lib/utils/axios.services";
+import { getActivatedPlan, mapCouponsToProducts } from "@/lib/utils/helpers";
 
 export default function Subscriptions() {
   const router = useRouter();
@@ -26,82 +17,67 @@ export default function Subscriptions() {
 
   const [plans, setPlans] = useState<Plan[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [promocodeId, setPromocodeId] = useState<string>("");
+  const [promoCodes, setPromoCodes] = useState<IPromoCode[]>([]);
+
+  const subscribe = async (priceId: string, promocodeId: string, coupon: string) => {
+    await handleSubscribe(priceId, promocodeId, coupon, email);
+    router.push('/manage-subscription');
+  }
+
+  const getPromoCodes = async () => {
+    const data = await handleGetPromoCodes();
+    setPromoCodes(data as IPromoCode[]);
+  }
+
+  const fetchPlansAndActive = useCallback(async () => {
+      setLoading(true);
+      const coupons = await handleGetCoupons();
+      const plansData = await handleGetSubscriptionPlans();
+      const newPlans = mapCouponsToProducts(plansData, coupons);
+      newPlans.reverse();
+      setPlans(newPlans as Plan[]);
+      const subData = await handleGetSubscribedPlan();
+      if(subData){
+        const activePlan = getActivatedPlan(plansData, subData);
+        if (activePlan && activePlan?.id) router.push("/manage-subscription");
+      }
+      setLoading(false);
+  }, [router]);
 
   useEffect(() => {
     if (!access_token) {
       router.push("/");
     }
-  }, [access_token, router]);
-
-  const fetchPlansAndActive = async () => {
-    try {
-      setLoading(true);
-      const { data: plansData } = await axios.get("/api/subscription-plans");
-      setPlans(plansData);
-
-      const { data: subData } = await axios.get("/api/subscribed-plan", {
-        headers: { authorization: `Bearer ${access_token}` },
-      });
-
-      const activePlan = plansData.find((p: Plan) => subData.plan === p.id);
-      setLoading(false);
-      if (!activePlan || activePlan?.id) router.push("/manage-subscription");
-    } catch (err) {
-      setLoading(false);
-      if (isAxiosError(err)) {
-        const data: { message: string } = err.response?.data;
-        setError(data.message);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (access_token) {
-      fetchPlansAndActive();
-    }
-  }, [access_token]);
-
-  const handleSubscribe = async (priceId: string) => {
-    const stripe = await stripePromise;
-    try {
-      const { data } = await axios.post("/api/create-checkout-session", {
-        priceId,
-        email,
-      });
-      const sessionId = data?.sessionId;
-      router.push('/manage-subscription')
-      await stripe?.redirectToCheckout({ sessionId });
-    } catch (err) {
-      if (isAxiosError(err)) {
-        const data: { message: string } = err.response?.data;
-        console.log(data.message);
-      }
-    }
-  };
+    fetchPlansAndActive();
+    getPromoCodes();
+  }, [access_token, router, fetchPlansAndActive]);
 
   if (loading) return <p>Loading plans...</p>;
-  if (error) return <p>{error}</p>;
-
   return (
     <div className={styles["m-container"]}>
       <h1>Choose a Subscription Plan</h1>
       <div className={styles["subs-container"]}>
-        {plans.map((plan) => (
+        {plans.map((plan, index) => (
           <div key={plan.id} className={styles["sub-container"]}>
             <h2>{plan.name}</h2>
             <p>{plan.description}</p>
-            <p>
-              Price:{" "}
-              {new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-              }).format(plan.price / 100)}{" "}
-              / {plan.interval}
-            </p>
+            <PriceContainer
+              price={plan.price}
+              interval={plan.interval}
+              discount_price={plan?.coupon?.amount_off}
+            />
+            <PromoCodeContainer
+              plan={plan}
+              index={index}
+              promoCodes={promoCodes}
+              setPromocodeId={setPromocodeId}
+            />
             <button
               className={styles["sub-btn"]}
-              onClick={() => handleSubscribe(plan.price_id)}
+              onClick={() =>
+                subscribe(plan.price_id, promocodeId, plan?.coupon?.id)
+              }
             >
               Subscribe
             </button>

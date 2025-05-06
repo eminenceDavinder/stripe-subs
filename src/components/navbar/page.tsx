@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { removeLocalStorage } from "@/utils/localStorage";
+import { removeLocalStorage } from "@/lib/utils/localStorage";
 import { clearUser } from "@/store/slices/userSlice";
 
 

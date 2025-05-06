@@ -1,54 +1,61 @@
 "use client";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/store/slices/userSlice";
 import { RootState } from "@/store/store";
-import { getLocalStorage } from "@/utils/localStorage";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { getLocalStorage } from "@/lib/utils/localStorage";
+import { handleCheckIsSubscribed } from "@/lib/utils/axios.services";
 
-export default function HomePage({}) {
-  const dispatch = useDispatch();
+const Subscription = ({ active }: { active: boolean }) => {
   const router = useRouter();
-  const { userInfo } = useSelector((store: RootState) => store.user);
+
+  const handleClick = () => {
+    router.push(active ? "/manage-subscription" : "/subscriptions");
+  };
+
+  return (
+    <div className="container">
+      <h3>
+        {active
+          ? "Manage your Subscriptions"
+          : "Subscribe please to access the content"}
+      </h3>
+      <button className={active ? "manage-btn" : "subs"} onClick={handleClick}>
+        {active ? "Manage Subscription" : "Subscribe"}
+      </button>
+    </div>
+  );
+};
+
+export default function HomePage() {
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector((state: RootState) => state.user);
   const [active, setActive] = useState(false);
 
-  const handleCheckIsSubscribed = async (token: string) => {
-    const { data } = await axios.get("/api/is-subscribed", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setActive(data.isSubscribed);
-  };
+  const fetchData = useCallback(async () => {
+    const userInfoFromStorage = getLocalStorage("userInfo");
+
+    if (!userInfoFromStorage) return;
+
+    dispatch(setUser({ userInfo: userInfoFromStorage }));
+
+    const isSubscribed = await handleCheckIsSubscribed();
+    setActive(isSubscribed);
+  }, [dispatch]);
 
   useEffect(() => {
-    const userInfoFromStorage = getLocalStorage("userInfo");
-    if (userInfoFromStorage) {
-      dispatch(setUser({ userInfo: userInfoFromStorage }));
-      handleCheckIsSubscribed(userInfoFromStorage.access_token);
-    }
-  }, [dispatch, active]);
+    fetchData();
+  }, [fetchData]);
 
-  const Subscription = () => {
-    return (
-      <div className="container">
-        <h3>{active ? "Manage your Susbscriptions" : "Subscribe please to access the content"}</h3>
-        {
-          active ? <button className="manage-btn" onClick={() => {router.push('/manage-subscription')}}>Manage Subscription</button> : 
-          <button onClick={() => {router.push('/subscriptions')}} className="subs">Subscribe</button>
-        }
-      </div>
-    );
-  };
-
-  
-
-  return <>
-    <h1>Home Page</h1>
-    {
-      userInfo.access_token ?
-      <Subscription /> : <p>Authenticate First</p>
-    }
-  </>
+  return (
+    <>
+      <h1>Home Page</h1>
+      {userInfo?.access_token ? (
+        <Subscription active={active} />
+      ) : (
+        <p>Authenticate First</p>
+      )}
+    </>
+  );
 }

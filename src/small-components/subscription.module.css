@@ -1,0 +1,17 @@
+.promo-con{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    gap: 2px;
+    font-size: 17px;
+}
+
+.promo-con input{
+    font-size: 15px;
+    padding: 3px 9px;
+    border-radius: 7px;
+    border: none;
+    color: black;
+    font-weight: 600;
+    width: 90%;
+}

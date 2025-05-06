@@ -14,12 +14,44 @@ interface IStripe extends Document {
   isActive: boolean;
   paymentMethod: string;
 }
+
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
   stripe?: IStripe;
 }
+
+export interface Plan {
+  product_Id: string;
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  price_id: string;
+  interval: string;
+  coupon: Coupon;
+};
+
+export interface Coupon {
+  id: string;
+  name: string | null;
+  duration: "forever" | "once" | "repeating";
+  metadata: Record<string, string>;
+  valid: boolean;
+  percent_off: number | null;
+  amount_off: number | null;
+  currency: string | null;
+}
+
+export interface IPromoCode {
+  id: string,
+  code: string,
+  active: boolean
+  // coupon: Coupon,
+  metadata: Record<string, string>
+}
+
 export interface ISubscription extends Document {
   userId: mongoose.Schema.Types.ObjectId;
   stripeInvoiceId: string,
@@ -35,7 +67,7 @@ export interface ISubscription extends Document {
     | string;
   currentPeriodStart: Date;
   currentPeriodEnd: Date;
-  cancelAtPeriodEnd?: Date; // renamed for clarity
-  trialEnd?: Date; // fixed typo
+  cancelAtPeriodEnd?: Date; 
+  trialEnd?: Date; 
   latestInvoice: string;
 }

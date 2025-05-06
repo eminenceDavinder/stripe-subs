@@ -1,19 +1,19 @@
 "use client";
 import { RootState } from "@/store/store";
-import axios, { isAxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./page.css";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-
-type Plan = {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  price_id: string;
-  interval: string;
-};
+import { Plan } from "@/lib/interfaces";
+import { PriceContainer } from "@/small-components/subscription";
+import {
+  handleCancelSubscription,
+  handleGetSubscribedPlan,
+  handleGetSubscriptionPlans,
+  handleUpdateSubscription,
+} from "@/lib/utils/axios.services";
+import { getActivatedPlan } from "@/lib/utils/helpers";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Account() {
   const [plans, setPlans] = useState<Plan[]>([]);
@@ -21,65 +21,39 @@ export default function Account() {
   const [loading, setLoading] = useState(false);
   const route = useRouter();
   const {
-    userInfo: { access_token, email },
+    userInfo: { email },
   } = useSelector((store: RootState) => store.user);
 
-  const fetchPlansAndActive = async () => {
-    try {
-      const { data: plansData } = await axios.get("/api/subscription-plans");
-      setPlans(plansData);
-
-      const { data: subData } = await axios.get("/api/subscribed-plan", {
-        headers: { authorization: `Bearer ${access_token}` },
-      });
-
-      const activePlan = plansData.find((p: Plan) => subData.plan === p.id);
+  const fetchPlansAndActive = useCallback(async () => {
+    const plansData = await handleGetSubscriptionPlans();
+    setPlans(plansData);
+    const subData = await handleGetSubscribedPlan();
+    if (subData) {
+      const activePlan = getActivatedPlan(plansData, subData);
+      if (!activePlan) return route.push("/manage-subscription");
       setPlan(activePlan);
-      if (!activePlan || !activePlan?.id) route.push("/subscriptions");
-    } catch (err) {
-      if (isAxiosError(err)) {
-        console.error("Subscription fetch error:", err);
-      }
     }
-  };
+  }, [route]);
 
-  const handleUpgrade = async (priceId: string) => {
-    try {
-      const { data } = await axios.post(
-        "/api/upgrade-subscription",
-        { priceId, email },
-        {
-          headers: { authorization: `Bearer ${access_token}` },
-        }
-      );
-      window.location.href = data.url;
-    } catch (err) {
-      console.error("Upgrade error:", err);
-    }
-  };
-
+  
   const handleCancel = async () => {
-    try {
       setLoading(true);
-      await axios.post(
-        "/api/cancel-subscription",
-        {email},
-        { headers: { authorization: `Bearer ${access_token}` } }
-      );
+      const result = await handleCancelSubscription(email);
       setLoading(false);
-      window.location.href = '/subscriptions';
-    } catch (err) {
-      setLoading(false);
-      console.error("Cancel error:", err);
-    }
+      if(result){
+        toast.success("Subscription cancled Successfully");
+        return window.location.href = "/subscriptions";
+      }
+      return toast.error("Subscription not cancled due to server error, please try again later")
   };
 
   useEffect(() => {
     fetchPlansAndActive();
-  }, [access_token]);
+  }, [fetchPlansAndActive]);
 
   return (
     <div className="container">
+      <Toaster/>
       <h1>Manage Subscription</h1>
 
       <div className="card">
@@ -103,7 +77,6 @@ export default function Account() {
             >
               {loading ? (
                 <span className="spinner"></span>
-
               ) : (
                 "Cancel Subscription"
               )}
@@ -125,14 +98,16 @@ export default function Account() {
                   <strong>{p.name}</strong>
                 </p>
                 <p>{p.description}</p>
-                <p>
-                  ${p.price / 100} / {p.interval}
-                </p>
+                <PriceContainer
+                  price={p.price}
+                  interval={p.interval}
+                  discount_price={p?.coupon?.amount_off}
+                />
                 <button
                   className="upgrade"
-                  onClick={() => handleUpgrade(p.price_id)}
+                  onClick={() => handleUpdateSubscription(p.price_id, p?.coupon?.id, email)}
                 >
-                  Upgrade
+                  {(plan?.price as number) > p.price ? "Downgrade" : "Upgrade"}
                 </button>
               </div>
             ))}

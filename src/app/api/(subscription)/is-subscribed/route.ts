@@ -1,11 +1,8 @@
-import { authenticateToken } from "@/helpers/auth.helpers";
-import { dbConnection } from "@/lib/dbConnection";
-import User from "@/models/user.model";
-import { NextRequest, NextResponse } from "next/server";
+import { isSubscribed } from "@/lib/services/user.service";
+import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
-    dbConnection();
-    const user = authenticateToken(request);
-    const data = await User.findById(user);
-    return NextResponse.json({isSubscribed: data?.stripe?.isActive});
+    const authHeader = request.headers.get('authorization');
+    const token = authHeader && authHeader.split(" ")[1];
+    return isSubscribed(token as string);
 }

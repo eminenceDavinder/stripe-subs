@@ -14,3 +14,153 @@
 2025-04-18T09:42:23.475Z [ERROR]: Database is not connected MongooseError: The `uri` parameter to `openUri()` must be a string, got "undefined". Make sure the first parameter to `mongoose.connect()` or `mongoose.createConnection()` is a string.
 2025-04-21T04:35:15.611Z [ERROR]: Database is not connected MongooseServerSelectionError: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/
 2025-04-22T05:28:33.436Z [ERROR]: Database is not connected Error: querySrv ESERVFAIL _mongodb._tcp.subscription.xkpbonv.mongodb.net
+2025-04-25T11:06:44.811Z [ERROR]: Error executing async function for operation Cast to ObjectId failed for value "Promise {
+  '680b6603e24e08544c506551',
+  [Symbol(async_id_symbol)]: 1759649,
+  [Symbol(trigger_async_id_symbol)]: 1759628,
+  [Symbol(kResourceStore)]: {
+    isStaticGeneration: false,
+    page: '/api/(subscription)/subscribed-plan/route',
+    fallbackRouteParams: null,
+    route: '/api/subscribed-plan',
+    incrementalCache: IncrementalCache {
+      locks: Map(0) {},
+      hasCustomCacheHandler: false,
+      dev: true,
+      disableForTestmode: false,
+      minimalMode: false,
+      requestHeaders: [Object],
+      requestProtocol: 'http',
+      allowedRevalidateHeaderKeys: undefined,
+      prerenderManifest: [Object],
+      cacheControls: [SharedCacheControls],
+      fetchCacheKeyPrefix: '',
+      cacheHandler: [FileSystemCache]
+    },
+    cacheLifeProfiles: {
+      default: [Object],
+      seconds: [Object],
+      minutes: [Object],
+      hours: [Object],
+      days: [Object],
+      weeks: [Object],
+      max: [Object]
+    },
+    isRevalidate: false,
+    isPrerendering: undefined,
+    fetchCache: undefined,
+    isOnDemandRevalidate: undefined,
+    isDraftMode: undefined,
+    requestEndedState: undefined,
+    isPrefetchRequest: undefined,
+    buildId: 'development',
+    reactLoadableManifest: {},
+    assetPrefix: '',
+    afterContext: AfterContext {
+      workUnitStores: Set(0) {},
+      waitUntil: [Function (anonymous)],
+      onClose: [Function: bound onClose],
+      onTaskError: undefined,
+      callbackQueue: [EventEmitter]
+    },
+    dynamicIOEnabled: false,
+    dev: false,
+    previouslyRevalidatedTags: [],
+    refreshTagsByCacheKind: Map(2) { 'default' => [Object], 'remote' => [Object] }
+  },
+  [Symbol(kResourceStore)]: undefined,
+  [Symbol(kResourceStore)]: undefined,
+  [Symbol(kResourceStore)]: undefined,
+  [Symbol(kResourceStore)]: { isAppRoute: true, isAction: false },
+  [Symbol(kResourceStore)]: {
+    type: 'request',
+    phase: 'action',
+    implicitTags: { tags: [Array], expirationsByCacheKind: [Map] },
+    url: { pathname: '/api/subscribed-plan', search: '' },
+    rootParams: {},
+    headers: [Getter],
+    cookies: [Getter/Setter],
+    mutableCookies: [Getter],
+    userspaceMutableCookies: [Getter],
+    draftMode: [Getter],
+    renderResumeDataCache: null,
+    isHmrRefresh: false,
+    serverComponentsHmrCache: undefined,
+    usedDynamic: true
+  }
+}" (type Promise) at path "userId" for model "Subscription"
+2025-04-25T11:06:44.811Z [ERROR]: Error executing async function for operation Cast to ObjectId failed for value "Promise {
+  '680b6603e24e08544c506551',
+  [Symbol(async_id_symbol)]: 1759674,
+  [Symbol(trigger_async_id_symbol)]: 1759640,
+  [Symbol(kResourceStore)]: {
+    isStaticGeneration: false,
+    page: '/api/(subscription)/subscribed-plan/route',
+    fallbackRouteParams: null,
+    route: '/api/subscribed-plan',
+    incrementalCache: IncrementalCache {
+      locks: Map(0) {},
+      hasCustomCacheHandler: false,
+      dev: true,
+      disableForTestmode: false,
+      minimalMode: false,
+      requestHeaders: [Object],
+      requestProtocol: 'http',
+      allowedRevalidateHeaderKeys: undefined,
+      prerenderManifest: [Object],
+      cacheControls: [SharedCacheControls],
+      fetchCacheKeyPrefix: '',
+      cacheHandler: [FileSystemCache]
+    },
+    cacheLifeProfiles: {
+      default: [Object],
+      seconds: [Object],
+      minutes: [Object],
+      hours: [Object],
+      days: [Object],
+      weeks: [Object],
+      max: [Object]
+    },
+    isRevalidate: false,
+    isPrerendering: undefined,
+    fetchCache: undefined,
+    isOnDemandRevalidate: undefined,
+    isDraftMode: undefined,
+    requestEndedState: undefined,
+    isPrefetchRequest: undefined,
+    buildId: 'development',
+    reactLoadableManifest: {},
+    assetPrefix: '',
+    afterContext: AfterContext {
+      workUnitStores: Set(0) {},
+      waitUntil: [Function (anonymous)],
+      onClose: [Function: bound onClose],
+      onTaskError: undefined,
+      callbackQueue: [EventEmitter]
+    },
+    dynamicIOEnabled: false,
+    dev: false,
+    previouslyRevalidatedTags: [],
+    refreshTagsByCacheKind: Map(2) { 'default' => [Object], 'remote' => [Object] }
+  },
+  [Symbol(kResourceStore)]: undefined,
+  [Symbol(kResourceStore)]: undefined,
+  [Symbol(kResourceStore)]: undefined,
+  [Symbol(kResourceStore)]: { isAppRoute: true, isAction: false },
+  [Symbol(kResourceStore)]: {
+    type: 'request',
+    phase: 'action',
+    implicitTags: { tags: [Array], expirationsByCacheKind: [Map] },
+    url: { pathname: '/api/subscribed-plan', search: '' },
+    rootParams: {},
+    headers: [Getter],
+    cookies: [Getter/Setter],
+    mutableCookies: [Getter],
+    userspaceMutableCookies: [Getter],
+    draftMode: [Getter],
+    renderResumeDataCache: null,
+    isHmrRefresh: false,
+    serverComponentsHmrCache: undefined,
+    usedDynamic: true
+  }
+}" (type Promise) at path "userId" for model "Subscription"

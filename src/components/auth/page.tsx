@@ -2,51 +2,38 @@
 import { FormEvent } from "react";
 import "./page.css";
 import { usePathname } from "next/navigation";
-import { AuthRequestBody } from "@/utils/validators";
+import { AuthRequestBody } from "@/lib/validators";
 import toast, { Toaster } from "react-hot-toast";
-import axios, { isAxiosError } from "axios";
 import Link from "next/link";
-import { setLocalStorage } from "@/utils/localStorage";
+import { setLocalStorage } from "@/lib/utils/localStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/store/slices/userSlice";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/store/store";
+import { handleFormData } from "@/lib/utils/helpers";
+import { handleUserAuth } from "@/lib/utils/axios.services";
 
 const Auth = () => {
   const auth = usePathname();
   const router = useRouter();
   const {userInfo: {access_token}} = useSelector((store: RootState) => store.user);
-  console.log(access_token);
   if(access_token) router.push('/');
   const dispatch = useDispatch();
-  const handleFormData = (data: HTMLFormElement) => {
-    const form = new FormData(data);
-    const formData: Record<string, unknown> = {};
-    for (const [key, value] of form.entries()) {
-      formData[key] = value;
-    }
-    return formData;
-  };
-
+  
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = handleFormData(event.currentTarget);
     const result = AuthRequestBody.safeParse(formData);
     if (!result.success) return toast.error(result.error.issues[0].message);
-    try{
-      const { data } = await axios.post(`/api${auth}`, formData);
+    const data = await handleUserAuth(auth, formData);
+    if(data?.success){
       setLocalStorage('userInfo', data?.result);
       dispatch(setUser({userInfo: data?.result}));
       toast.success(data?.message);
-      router.push('/');
-    }catch(err){
-      if(isAxiosError(err)){
-        const data : {message: string} = err.response?.data;
-        return toast.error(data.message);
-      }
+      return router.push('/');
     }
+    return toast.error(data?.message);
   };
-
 
   return (
     <>

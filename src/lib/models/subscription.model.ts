@@ -1,5 +1,5 @@
 import mongoose, { Schema, model, models } from 'mongoose';
-import { ISubscription } from '@/utils/interfaces';
+import { ISubscription } from '@/lib/interfaces';
 
 
 const SubscriptionSchema = new mongoose.Schema(
@@ -16,10 +16,10 @@ const SubscriptionSchema = new mongoose.Schema(
       },
       currentPeriodStart: { type: Date, required: true },
       currentPeriodEnd: { type: Date, required: true },
-      cancelAtPeriodEnd: { type: Date }, // Optional
-      trialEnd: { type: Date }, // Optional
+      cancelAtPeriodEnd: { type: Date }, 
+      trialEnd: { type: Date }, 
       latestInvoice: { type: String, required: true },
     },
-    { timestamps: true } // adds createdAt and updatedAt automatically
+    { timestamps: true } 
   );
 export default models.Subscription || model<ISubscription>('Subscription', SubscriptionSchema);
